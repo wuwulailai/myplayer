@@ -511,7 +511,6 @@
 				E6903FD817EAFC6100CFD954 /* ff_ffinc.h */,
 				E6903FDA17EAFC6100CFD954 /* ff_ffmsg_queue.h */,
 				E6903FD917EAFC6100CFD954 /* ff_ffmsg.h */,
-				E67B91AB1A3801DB00717EA9 /* ff_ffpipeline.c */,
 				E67B91AC1A3801DB00717EA9 /* ff_ffpipeline.h */,
 				E67B91AD1A3801DB00717EA9 /* ff_ffpipenode.c */,
 				E67B91AE1A3801DB00717EA9 /* ff_ffpipenode.h */,
@@ -520,6 +519,7 @@
 				E6C459BC1C7089AB004831EC /* ff_ffplay_options.h */,
 				E6903FDB17EAFC6100CFD954 /* ff_ffplay.c */,
 				E6903FDC17EAFC6100CFD954 /* ff_ffplay.h */,
+				E67B91AB1A3801DB00717EA9 /* ff_ffpipeline.c */,
 				E69BE5491B93FED300AFBA3F /* ijkavformat */,
 				E69BE54E1B93FED300AFBA3F /* ijkavutil */,
 				E6FAD9551A515CE300725002 /* ijkmeta.c */,
@@ -987,6 +987,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../**";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1033,6 +1034,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1137,6 +1139,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)\\ffmpeg_$(CURRENT_ARCH)\\";
 			};
 			name = Debug;
 		};
@@ -1167,6 +1170,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)\\ffmpeg_$(CURRENT_ARCH)\\";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
