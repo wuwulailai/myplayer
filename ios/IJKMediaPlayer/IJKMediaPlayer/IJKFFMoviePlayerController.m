@@ -186,13 +186,13 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         _mediaPlayer = ijkmp_ios_create(media_player_msg_loop);
         
         
-        _msgPool = [[IJKFFMoviePlayerMessagePool alloc] init];
+        _msgPool = [[IJKFFMoviePlayerMessagePool alloc] init];  //消息池？
 
         ijkmp_set_weak_thiz(_mediaPlayer, (__bridge_retained void *) self);
-        ijkmp_set_inject_opaque(_mediaPlayer, (__bridge void *) self);
+        ijkmp_set_inject_opaque(_mediaPlayer, (__bridge void *) self);   //dict.c
         ijkmp_set_option_int(_mediaPlayer, IJKMP_OPT_CATEGORY_PLAYER, "start-on-prepared", _shouldAutoplay ? 1 : 0);
 
-        // init video sink
+        // init video sink  视频库
         _glView = [[IJKSDLGLView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         _glView.shouldShowHudView = NO;
         _view   = _glView;
@@ -211,8 +211,8 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         
         self.shouldShowHudView = options.showHudView;
 
-        ijkmp_ios_set_glview(_mediaPlayer, _glView);
-        ijkmp_set_option(_mediaPlayer, IJKMP_OPT_CATEGORY_PLAYER, "overlay-format", "fcc-_es2");
+        ijkmp_ios_set_glview(_mediaPlayer, _glView);  //vout
+        ijkmp_set_option(_mediaPlayer, IJKMP_OPT_CATEGORY_PLAYER, "overlay-format", "fcc-_es2");  //颜色格式？
 #ifdef DEBUG
 //        [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
         [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
@@ -220,17 +220,17 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_SILENT];
 #endif
         // init audio sink
-        [[IJKAudioKit sharedInstance] setupAudioSession];
+        [[IJKAudioKit sharedInstance] setupAudioSession];  //初始化音频库
 
-        [options applyTo:_mediaPlayer];
+        [options applyTo:_mediaPlayer];   //更新选项设置到dict，便于下次取用
         _pauseInBackground = NO;
 
         // init extra
         _keepScreenOnWhilePlaying = YES;
-        [self setScreenOn:YES];
+        [self setScreenOn:YES];                                         //防止闲时sleep
 
-        _notificationManager = [[IJKNotificationManager alloc] init];
-        [self registerApplicationObservers];
+        _notificationManager = [[IJKNotificationManager alloc] init];   //通知
+        [self registerApplicationObservers];                            //注册常用通知
     }
     return self;
 }
@@ -268,7 +268,7 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
 
     [self setScreenOn:_keepScreenOnWhilePlaying];
 
-    ijkmp_set_data_source(_mediaPlayer, [_urlString UTF8String]);
+    ijkmp_set_data_source(_mediaPlayer, [_urlString UTF8String]);  //设置数据源，播放状态
     ijkmp_set_option(_mediaPlayer, IJKMP_OPT_CATEGORY_FORMAT, "safe", "0"); // for concat demuxer
 
     _monitor.prepareStartTick = (int64_t)SDL_GetTickHR();

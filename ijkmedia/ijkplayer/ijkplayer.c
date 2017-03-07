@@ -374,11 +374,11 @@ static int ijkmp_prepare_async_l(IjkMediaPlayer *mp)
 
     ijkmp_change_state_l(mp, MP_STATE_ASYNC_PREPARING);
 
-    msg_queue_start(&mp->ffplayer->msg_queue);
+    msg_queue_start(&mp->ffplayer->msg_queue);  
 
     // released in msg_loop
     ijkmp_inc_ref(mp);
-    mp->msg_thread = SDL_CreateThreadEx(&mp->_msg_thread, ijkmp_msg_loop, mp, "ff_msg_loop");
+    mp->msg_thread = SDL_CreateThreadEx(&mp->_msg_thread, ijkmp_msg_loop, mp, "ff_msg_loop");  //消息循环
     // msg_thread is detached inside msg_loop
     // TODO: 9 release weak_thiz if pthread_create() failed;
 
