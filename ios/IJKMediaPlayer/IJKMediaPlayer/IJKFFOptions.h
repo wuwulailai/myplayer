@@ -44,6 +44,9 @@ typedef enum IJKAVDiscard {
 
 struct IjkMediaPlayer;
 
+/**
+ * 设置一些参数
+ */
 @interface IJKFFOptions : NSObject
 
 +(IJKFFOptions *)optionsByDefault;

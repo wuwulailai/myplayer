@@ -32,7 +32,7 @@
     historyItem.title = title;
     historyItem.url = url;
     [[IJKDemoHistory instance] add:historyItem];
-    
+    viewController.modalPresentationStyle = UIModalPresentationCustom;
     [viewController presentViewController:[[IJKVideoViewController alloc] initWithURL:url] animated:YES completion:completion];
 }
 
@@ -74,20 +74,12 @@
     [IJKFFMoviePlayerController checkIfFFmpegVersionMatch:YES];
     // [IJKFFMoviePlayerController checkIfPlayerVersionMatch:YES major:1 minor:0 micro:0];
 
-    IJKFFOptions *options = [IJKFFOptions optionsByDefault];
-    NSLogInfo(@"开始创建播放组件：");
-    self.player = [[IJKFFMoviePlayerController alloc] initWithContentURL:self.url withOptions:options];
-    NSLogInfo(@"\nplayer:%@",self.player);
-    self.player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    self.player.view.frame = self.view.bounds;
-    self.player.scalingMode = IJKMPMovieScalingModeAspectFit;
-    self.player.shouldAutoplay = YES;
+    [self initPlayer];
 
-    self.view.autoresizesSubviews = YES;
-    [self.view addSubview:self.player.view];
-    [self.view addSubview:self.mediaControl];
-
-    self.mediaControl.delegatePlayer = self.player;
+}
+-(void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    self.mediaControl.frame = self.view.frame;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -118,6 +110,25 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Init Player & Player Controller
+-(void)initPlayer
+{
+    IJKFFOptions *options = [IJKFFOptions optionsByDefault];
+    NSLogInfo(@"开始创建播放组件：");
+    self.player = [[IJKFFMoviePlayerController alloc] initWithContentURL:self.url withOptions:options];
+    NSLogInfo(@"\nplayer:%@",self.player);
+    self.player.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.player.view.frame = self.view.bounds;
+    self.player.scalingMode = IJKMPMovieScalingModeAspectFit;
+    self.player.shouldAutoplay = YES;
+    
+    self.view.autoresizesSubviews = YES;
+    [self.view addSubview:self.player.view];
+    [self.view addSubview:self.mediaControl];
+    
+    self.mediaControl.delegatePlayer = self.player;
 }
 
 #pragma mark IBAction

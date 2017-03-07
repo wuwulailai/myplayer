@@ -160,10 +160,11 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
 
     self = [super init];
     if (self) {
-        ijkmp_global_init();
-        ijkmp_global_set_inject_callback(ijkff_inject_callback);
+        
+        ijkmp_global_init();  //ijkplayer.c
+        ijkmp_global_set_inject_callback(ijkff_inject_callback);  //注册回调方法
 
-        [IJKFFMoviePlayerController checkIfFFmpegVersionMatch:NO];
+        [IJKFFMoviePlayerController checkIfFFmpegVersionMatch:NO]; //检查FFmpeg版本是否匹配
 
         if (options == nil)
             options = [IJKFFOptions optionsByDefault];
@@ -174,15 +175,17 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         // init fields
         _scalingMode = IJKMPMovieScalingModeAspectFit;
         _shouldAutoplay = YES;
-        memset(&_asyncStat, 0, sizeof(_asyncStat));
+        memset(&_asyncStat, 0, sizeof(_asyncStat));  //什么东西？
 
         _monitor = [[IJKFFMonitor alloc] init];
 
         // init media resource
-        _urlString = aUrlString;
+        _urlString = aUrlString;  //播放源
 
         // init player
         _mediaPlayer = ijkmp_ios_create(media_player_msg_loop);
+        
+        
         _msgPool = [[IJKFFMoviePlayerMessagePool alloc] init];
 
         ijkmp_set_weak_thiz(_mediaPlayer, (__bridge_retained void *) self);

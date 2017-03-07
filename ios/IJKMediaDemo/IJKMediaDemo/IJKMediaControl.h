@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+/**
+ *  播放控制controller
+ */
+
 #import <UIKit/UIKit.h>
 
 @protocol IJKMediaPlayback;

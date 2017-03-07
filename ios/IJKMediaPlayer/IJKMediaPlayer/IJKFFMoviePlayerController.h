@@ -55,6 +55,9 @@
 
 #define kk_IJKM_KEY_STREAMS       @"streams"
 
+/**
+ * 日志级别
+ */
 typedef enum IJKLogLevel {
     k_IJK_LOG_UNKNOWN = 0,
     k_IJK_LOG_DEFAULT = 1,

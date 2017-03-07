@@ -22,28 +22,38 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+/**
+ *播放器的填充方式
+ */
 typedef NS_ENUM(NSInteger, IJKMPMovieScalingMode) {
-    IJKMPMovieScalingModeNone,       // No scaling
-    IJKMPMovieScalingModeAspectFit,  // Uniform scale until one dimension fits
-    IJKMPMovieScalingModeAspectFill, // Uniform scale until the movie fills the visible bounds. One dimension may have clipped contents
-    IJKMPMovieScalingModeFill        // Non-uniform scale. Both render dimensions will exactly match the visible bounds
+    IJKMPMovieScalingModeNone,       // No scaling（无缩放）
+    IJKMPMovieScalingModeAspectFit,  // Uniform scale until one dimension fits（适应大小模式）
+    IJKMPMovieScalingModeAspectFill, // Uniform scale until the movie fills the visible bounds. One dimension may have clipped contents（充满可视范围，可能会被裁剪）
+    IJKMPMovieScalingModeFill        // Non-uniform scale. Both render dimensions will exactly match the visible bounds（缩放到充满视图）
 };
 
+/**
+ *播放器的当前状态
+ */
 typedef NS_ENUM(NSInteger, IJKMPMoviePlaybackState) {
-    IJKMPMoviePlaybackStateStopped,
-    IJKMPMoviePlaybackStatePlaying,
-    IJKMPMoviePlaybackStatePaused,
-    IJKMPMoviePlaybackStateInterrupted,
-    IJKMPMoviePlaybackStateSeekingForward,
-    IJKMPMoviePlaybackStateSeekingBackward
+    IJKMPMoviePlaybackStateStopped,         //停止播放
+    IJKMPMoviePlaybackStatePlaying,         //正在播放
+    IJKMPMoviePlaybackStatePaused,          //暂停播放
+    IJKMPMoviePlaybackStateInterrupted,     //中断播放
+    IJKMPMoviePlaybackStateSeekingForward,  //快进
+    IJKMPMoviePlaybackStateSeekingBackward  //快退
 };
 
+/**
+ *播放器的网络缓存状态
+ */
 typedef NS_OPTIONS(NSUInteger, IJKMPMovieLoadState) {
-    IJKMPMovieLoadStateUnknown        = 0,
-    IJKMPMovieLoadStatePlayable       = 1 << 0,
+    IJKMPMovieLoadStateUnknown        = 0,  //状态未知
+    IJKMPMovieLoadStatePlayable       = 1 << 0, //缓存数据足够开始播放，但是视频并没有缓存完全
     IJKMPMovieLoadStatePlaythroughOK  = 1 << 1, // Playback will be automatically started in this state when shouldAutoplay is YES
+    //已经缓存完成，如果设置了自动播放，这时会自动播放
     IJKMPMovieLoadStateStalled        = 1 << 2, // Playback will be automatically paused in this state, if started
+    //数据已经停止，播放将暂停
 };
 
 typedef NS_ENUM(NSInteger, IJKMPMovieFinishReason) {
@@ -54,10 +64,12 @@ typedef NS_ENUM(NSInteger, IJKMPMovieFinishReason) {
 
 // -----------------------------------------------------------------------------
 // Thumbnails
-
+/**
+ *播视频某一些时间点的缩略图
+ */
 typedef NS_ENUM(NSInteger, IJKMPMovieTimeOption) {
-    IJKMPMovieTimeOptionNearestKeyFrame,
-    IJKMPMovieTimeOptionExact
+    IJKMPMovieTimeOptionNearestKeyFrame,  //使用最近的关键帧生成的缩略图
+    IJKMPMovieTimeOptionExact     //使用精确的当前帧生成的缩略图
 };
 
 @protocol IJKMediaPlayback;
@@ -66,7 +78,7 @@ typedef NS_ENUM(NSInteger, IJKMPMovieTimeOption) {
 
 @protocol IJKMediaPlayback <NSObject>
 
-- (void)prepareToPlay;
+- (void)prepareToPlay; //进行播放器的准备工作
 - (void)play;
 - (void)pause;
 - (void)stop;
@@ -87,8 +99,8 @@ typedef NS_ENUM(NSInteger, IJKMPMovieTimeOption) {
 @property(nonatomic, readonly) int64_t numberOfBytesTransferred;
 
 @property(nonatomic, readonly) CGSize naturalSize;
-@property(nonatomic) IJKMPMovieScalingMode scalingMode;
-@property(nonatomic) BOOL shouldAutoplay;
+@property(nonatomic) IJKMPMovieScalingMode scalingMode;  //设置播放器填充方式
+@property(nonatomic) BOOL shouldAutoplay;               //是否开启自动播放
 
 @property (nonatomic) BOOL allowsMediaAirPlay;
 @property (nonatomic) BOOL isDanmakuMediaAirPlay;
@@ -117,7 +129,7 @@ IJK_EXTERN NSString *const IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotificati
 //  MPMoviePlayerController.h
 //  Movie Player Notifications
 
-// Posted when the scaling mode changes.
+// Posted when the scaling mode changes.播放器缩放产生改变时发送的通知
 IJK_EXTERN NSString* const IJKMPMoviePlayerScalingModeDidChangeNotification;
 
 // Posted when movie playback ends or a user exits playback.
